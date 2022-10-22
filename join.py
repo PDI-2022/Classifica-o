@@ -7,7 +7,7 @@ import cv2
 juntar em uma imagem as faces da 
 imagem correspondente'''
 
-def join_image(path, name, lote1, lote2):
+def join_image(path, name, lote1):
     try:
         '''cria a pasta
         para o lote especificado'''
@@ -15,18 +15,28 @@ def join_image(path, name, lote1, lote2):
 
         '''Chama a função cortar_malha'''
         sementes1 = cm.cortar_malha(lote1)
-        '''Chama a função cortar_malha'''
-        sementes2 = cm.cortar_malha(lote2)
-
         '''Unir as imagens correspondentes'''
-        for i in range(1, 51):
+        aux = 0
+        aux_2 = 0
+        for i in range(50):
             '''Abrir a pasta'''
             os.chdir(path + name+'/')
             '''Unir as imagens'''
-            cv2.imwrite(name + '_semente_' + str(i) + '.jpg', np.hstack(
-                [sementes1[i],
-                 sementes2[i]]
-                    ))
+            if(i%5 == 0):
+                if i > 0:
+                    aux += 4    
+                
+                cv2.imwrite(name + '_semente_' + str(i - aux+1) + '.jpg', np.hstack(
+                    [sementes1[i]]
+                        ))
+                aux2 = 0
+
+            if(i%5 != 0):
+                aux2 += 9
+                cv2.imwrite(name + '_semente_' + str(i - aux + aux2+1) + '.jpg', np.hstack(
+                    [sementes1[i]]
+                        ))
+
             os.chdir(path)
     except:
         return
