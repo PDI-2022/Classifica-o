@@ -1,4 +1,5 @@
 import numpy as np
+from sklearn.metrics import confusion_matrix
 from sklearn.neural_network import MLPClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
@@ -8,6 +9,8 @@ from sklearn import tree
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import GradientBoostingClassifier
+
+import seaborn as sns
 
 from sklearn.model_selection import train_test_split  # hold out
 from sklearn.model_selection import cross_val_score  # cross-validation
@@ -99,9 +102,13 @@ def svmclassificator(X, y, folds):
 	X_treino, X_teste, y_treino, y_teste = train_test_split(X, y, test_size=0.3, random_state=1)
 	cross_validation('SVM', svm, X_treino, y_treino, folds)
 	svm.fit(X_treino, y_treino)
-	svm.predict(X_teste)
+	y_pred = svm.predict(X_teste)
+
 	acuracia = svm.score(X_teste, y_teste)
-	
+	cm = confusion_matrix(y_teste, y_pred)
+
+	sns.heatmap(cm, annot=True)		
+
 	print('-----------------------------------------------------------')
 	print('SVM, Hold out, Acc = ', acuracia)
 	print('-----------------------------------------------------------')
@@ -121,8 +128,12 @@ def ramdomForestClassificator(X, y, folds):
 	
 	cross_validation('RF', rf, X, y, folds)
 	X_treino, X_teste, y_treino, y_teste = train_test_split(X, y, test_size=0.3, random_state=1)
-	rf.fit(X_treino, y_treino)
-	rf.predict(X_teste)
+	rf.fit(X_treino, y_treino)	
+	y_pred = rf.predict(X_teste)
+
+	cm = confusion_matrix(y_teste, y_pred)
+
+	sns.heatmap(cm, annot=True)		
 	acuracia = rf.score(X_teste, y_teste)
 	
 	print('-----------------------------------------------------------')
@@ -136,8 +147,11 @@ def naivesBayesClassificator(X, y, folds):
 	gnb = GaussianNB()
 	cross_validation('GNB', gnb, X, y, folds)
 	y_pred = gnb.fit(X_treino, y_treino).predict(X_teste)
-	
-	acuracia = gnb.score(X, y)
+
+	cm = confusion_matrix(y_teste, y_pred)
+
+	sns.heatmap(cm, annot=True)	
+	acuracia = gnb.score(X_teste, y_teste)
 	
 	print('-----------------------------------------------------------')
 	print('Gaussian Naive Bayes, Hold out, Acc = ', acuracia)
@@ -149,9 +163,12 @@ def dicisionTreeClassificator(X, y, folds):
 	X_treino, X_teste, y_treino, y_teste = train_test_split(X, y, test_size=0.3, random_state=1)
 	dt = tree.DecisionTreeClassifier()
 	cross_validation('DT', dt, X, y, folds)
-	dt_pred = dt.fit(X_treino, y_treino).predict(X_teste)
-	
-	acuracia = dt.score(X, y)
+	y_pred = dt.fit(X_treino, y_treino).predict(X_teste)
+
+	cm = confusion_matrix(y_teste, y_pred)
+
+	sns.heatmap(cm, annot=True)	
+	acuracia = dt.score(X_teste, y_teste)
 	
 	print('-----------------------------------------------------------')
 	print('Decision Tree, Hold out, Acc = ', acuracia)
@@ -165,6 +182,12 @@ def extraTreeClassificator(X, y, folds):
 	X_treino, X_teste, y_treino, y_teste = train_test_split(X, y, test_size=0.3, random_state=1)
 	et.fit(X_treino, y_treino)
 	et.predict(X_teste)
+	
+	y_pred = et.predict(X_teste)
+
+	cm = confusion_matrix(y_teste, y_pred)
+
+	sns.heatmap(cm, annot=True)	
 	acuracia = et.score(X_teste, y_teste)
 	
 	print('-----------------------------------------------------------')
@@ -198,7 +221,10 @@ def gradienteBooClassificator(X, y, folds):
 	cross_validation('GB', gb, X, y, folds)
 	X_treino, X_teste, y_treino, y_teste = train_test_split(X, y, test_size=0.3, random_state=1)
 	gb.fit(X_treino, y_treino)
-	
+	y_pred = gb.predict(X_teste)
+
+	cm = confusion_matrix(y_teste, y_pred)
+
 	acuracia = gb.score(X_teste, y_teste)
 	
 	print('-----------------------------------------------------------')
