@@ -919,3 +919,5 @@ dados.csv
 externo.csv
 df_interno.csv
 interno.csv
+Treino_CNN_Augmentation/keras_metadata.pb
+Treino_CNN_Augmentation/saved_model.pb
