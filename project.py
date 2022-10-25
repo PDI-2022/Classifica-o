@@ -4,14 +4,14 @@ import cv2
 import os
 
 import join as join
-path1 = "/Users/alexandremac/Documents/UFC/PID/Classificacao/imagens_cortadas/"
-path2 = "/Users/alexandremac/Documents/UFC/PID/Classificacao/lote_de_imagens_PDI/"
+path1 = "C:\\Users\\ailso\\Documents\\Classificacao\\imagens_cortadas\\"
+path2 = "C:\\Users\\ailso\\Documents\\Classificacao\\lote_de_imagens_PDI\\"
 
 for i in range(1, 11):
     for j in range(1, 3):
 
             os.chdir(path2)
-            img1 = cv2.imread("LOTE " + str(i) + ' R2' + " INTERNA.jpg")
+            img1 = cv2.imread("LOTE " + str(i) + ' R2' + " INTERNA.jpeg")
             if img1 is not None:
                 join.join_image(path1, 'LOTE_INTERNO_' + str(i) + "_R2", img1)
 
@@ -21,7 +21,7 @@ for i in range(1, 11):
             j = 1
             os.chdir(path2)
 
-            img2 = cv2.imread("LOTE " + str(i) + ' R' + str(j) +" EXTERNA.jpg")
+            img2 = cv2.imread("LOTE " + str(i) + ' R' + str(j) +" EXTERNA.jpeg")
             if img2 is not None:
                 join.join_image(path1, 'LOTE_EXTERNO_' + str(i) + "_R1", img2)
             os.chdir(path2)
